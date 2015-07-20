@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Othm-symbols by OTHM-ORG</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Othm-symbols</h1>
+        <h2>Implements basic symbolic programming for C (using othm)</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/OTHM-ORG/othm-symbols/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/OTHM-ORG/othm-symbols/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/OTHM-ORG/othm-symbols" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>
+<a id="othm-symbols" class="anchor" href="#othm-symbols" aria-hidden="true"><span class="octicon octicon-link"></span></a>Othm Symbols</h2>
+
+<p><em>A header only library for keeping things simple</em></p>
+
+<h3>
+<a id="what-are-symbols-and-why-do-i-want-to-use-them" class="anchor" href="#what-are-symbols-and-why-do-i-want-to-use-them" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are symbols (and why do I want to use them?)</h3>
+
+<p>Symbols are (often) pointers (in this case of type struct othm_symbol_struct *) that have symbolic meaning making them useful for constants. In this case they also inherit from struct othm_request making them ideal for being used as hashmap keys.</p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<pre><code> make install
+</code></pre>
+
+<h3>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h3>
+
+<p>Include the header:</p>
+
+<div class="highlight highlight-C"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>othm_symbols.h<span class="pl-pds">&gt;</span></span></pre></div>
+
+<p>Add a new symbol (outside of a function, since symbols should be global):</p>
+
+<div class="highlight highlight-C"><pre>#<span class="pl-k">ifndef</span> OTHM_SYMBOL_SYMBOL_my_symbol
+#<span class="pl-k">define</span> <span class="pl-en">OTHM_SYMBOL_SYMBOL_my_symbol</span>
+<span class="pl-en">OTHM_SYMBOL_INIT</span>(my_symbol);
+#<span class="pl-k">endif</span></pre></div>
+
+<p>Or if you prefer a keyword symbol:</p>
+
+<div class="highlight highlight-C"><pre>#<span class="pl-k">ifndef</span> OTHM_SYMBOL_KEYWORD_my_keyword
+#<span class="pl-k">define</span> <span class="pl-en">OTHM_SYMBOL_KEYWORD_my_keyword</span>
+<span class="pl-en">OTHM_KEYWORD_INIT</span>(my_keyword);
+#<span class="pl-k">endif</span></pre></div>
+
+<p>You can compare (keyword/symbol/any symbol type) symbols:</p>
+
+<div class="highlight highlight-C"><pre><span class="pl-en">OTHM_SYMBOL</span>(my_symbol) == OTHM_SYMBOL(my_symbol);  <span class="pl-c">/* ==&gt; 1 */</span>
+<span class="pl-en">OTHM_KEYWORD</span>(my_symbol) == OTHM_SYMBOL(my_symbol); <span class="pl-c">/* ==&gt; 0 */</span></pre></div>
+
+<p>You can get their names (char *):</p>
+
+<div class="highlight highlight-C"><pre><span class="pl-en">OTHM_KEYWORD_NAME</span>(my_keyword)</pre></div>
+
+<p>You can print them out in a lisp inspired fashion:</p>
+
+<div class="highlight highlight-C"><pre><span class="pl-en">othm_symbol_print</span>(OTHM_SYMBOL(my_symbol));   <span class="pl-c">/* ==&gt; 'my_symbol  */</span>
+<span class="pl-en">othm_symbol_print</span>(OTHM_KEYWORD(my_keyword)); <span class="pl-c">/* ==&gt; :my_keyword */</span></pre></div>
+
+<p>Symbols can added to a global hashmap making them accessible at run time:</p>
+
+<div class="highlight highlight-C"><pre><span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">void</span>)
+{
+<span class="pl-c1">othm_symbols_init_runtime</span>();
+<span class="pl-c1">OTHM_SYMBOL_ALLOW_AT_RUNTIME</span>(hi);
+<span class="pl-c1">OTHM_KEYWORD_ALLOW_AT_RUNTIME</span>(bye);
+<span class="pl-k">if</span> (<span class="pl-c1">othm_symbol_get_from_string</span>(<span class="pl-s"><span class="pl-pds">"</span>hi<span class="pl-pds">"</span></span>) == <span class="pl-c1">OTHM_SYMBOL</span>(hi))
+        <span class="pl-c1">othm_symbol_print</span>(<span class="pl-c1">othm_keyword_get_from_string</span>(<span class="pl-s"><span class="pl-pds">"</span>bye<span class="pl-pds">"</span></span>));
+}</pre></div>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>Uladox (<a href="https://github.com/Uladox" class="user-mention">@Uladox</a>) <img class="emoji" title=":bowtie:" alt=":bowtie:" src="https://assets-cdn.github.com/images/icons/emoji/bowtie.png" height="20" width="20" align="absmiddle">.</p>
+
+<h3>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Email me at <a href="mailto:othmorg@gmail.com">othmorg@gmail.com</a></p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
