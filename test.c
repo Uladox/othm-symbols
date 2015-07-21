@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <othm_symbols.h>
+#include "test2.h"
 
 #ifndef OTHM_SYMBOL_SYMBOL_HI
 #define OTHM_SYMBOL_SYMBOL_HI
@@ -14,6 +15,7 @@ OTHM_KEYWORD_INIT(bye);
 
 int main(void)
 {
+	equal(OTHM_SYMBOL(cat));
 	othm_symbols_init_runtime();
 	OTHM_SYMBOL_ALLOW_AT_RUNTIME(hi);
 	OTHM_KEYWORD_ALLOW_AT_RUNTIME(bye);
