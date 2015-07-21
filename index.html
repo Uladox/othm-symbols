@@ -35,11 +35,14 @@
 <h3>
 <a id="what-are-symbols-and-why-do-i-want-to-use-them" class="anchor" href="#what-are-symbols-and-why-do-i-want-to-use-them" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are symbols (and why do I want to use them?)</h3>
 
-<p>Symbols are (often) pointers (in this case of type struct othm_symbol_struct *) that have symbolic meaning making them useful for constants. In this case they also inherit from struct othm_request making them ideal for being used as hashmap keys.</p>
+<p>Symbols are (often) pointers (in this case of type struct othm_symbol_struct *) that have symbolic meaning making them useful for constants. 
+In this case they also inherit from struct othm_request in a glib object oriented style making them ideal for being used as hashmap keys. 
+These symbols are based off lisp's symbols, but also are ment to support audio and image based symbols. 
+They are compiled and optimised removing any need to do garbage collection on them or worry about efficiency (which is why there is a heavy use of macros, they use stringification and concatenation to figure things out at compile time).</p>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
-
+<p>First install <a href="https://github.com/OTHM-ORG/othm-hashmap">othm-hashmap</a>, this is the only library required for othm-symbols.</p>
 <pre><code>make install
 </code></pre>
 
