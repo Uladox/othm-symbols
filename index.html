@@ -30,7 +30,7 @@
         <h2>
 <a id="othm-symbols" class="anchor" href="#othm-symbols" aria-hidden="true"><span class="octicon octicon-link"></span></a>Othm Symbols</h2>
 
-<p><em>A header only library for keeping things simple!</em></p>
+<p><em>A dynamic library for keeping things simple!</em></p>
 
 <h3>
 <a id="what-are-symbols-and-why-do-i-want-to-use-them" class="anchor" href="#what-are-symbols-and-why-do-i-want-to-use-them" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are symbols (and why do I want to use them?)</h3>
@@ -81,6 +81,10 @@ They are compiled and optimised removing any need to do garbage collection on th
 
 <div class="highlight highlight-C"><pre><span class="pl-en">othm_symbol_print</span>(OTHM_SYMBOL(my_symbol));   <span class="pl-c">/* ==&gt; 'my_symbol  */</span>
 <span class="pl-en">othm_symbol_print</span>(OTHM_KEYWORD(my_keyword)); <span class="pl-c">/* ==&gt; :my_keyword */</span></pre></div>
+
+<p>They can be shared between files using a header with the following:</p>
+
+<div class="highlight highlight-C"><pre><span class="pl-en">OTHM_SYMBOL_EXPORT</span>(my_symbol);</pre></div>
 
 <p>Symbols can added to a global hashmap making them accessible at run time:</p>
 
