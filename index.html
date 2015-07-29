@@ -39,19 +39,22 @@
 In this case they also inherit from struct othm_request in a glib object oriented style making them ideal for being used as hashmap keys. 
 These symbols are based off lisp's symbols, but also are ment to be able to support audio, image, and
 <a href="http://zbar.sourceforge.net/">barcodes</a>
-based symbols using libraries built ontop of othm-symbols (these do not currently exist, but will be implemented shortly. 
+based symbols using libraries built ontop of othm-symbols (these do not currently exist, but will be implemented shortly). 
 They are compiled and optimised removing any need to do garbage collection on them or worry about efficiency (which is why there is a heavy 
 use of macros, they use stringification and concatenation to figure things out at compile time).</p>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 <p>First install <a href="https://github.com/OTHM-ORG/othm-hashmap">othm-hashmap</a>, this is the only library required for othm-symbols.</p>
+<p>Note: work will be done on cross system support as soon as I have time</p>
 <p>Then run:</p>
 <pre><code>make && sudo make install
 </code></pre>
 
 <h3>
 <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h3>
+
+<p>Check the files in the source tree with the word "test" in them</p>
 
 <p>Include the header:</p>
 
