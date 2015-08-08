@@ -8,7 +8,7 @@
 	struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = {	\
 		.request.data = #SYMBOL,				\
 		.request.data_size = sizeof(#SYMBOL),			\
-		.request.type = othm_symbol_symbol_type,		\
+		.request.key_type = othm_symbol_symbol_key_type,		\
 		.request.check_key = othm_symbol_pointer_compare	\
 	}
 
@@ -16,7 +16,7 @@
 	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD = {	\
 		.request.data = #KEYWORD,				\
 		.request.data_size = sizeof(#KEYWORD),			\
-		.request.type = othm_symbol_keyword_type,		\
+		.request.key_type = othm_symbol_keyword_key_type,		\
 		.request.check_key = othm_symbol_pointer_compare	\
 	}
 
@@ -41,8 +41,8 @@ struct othm_symbol_struct {
 	struct othm_request request;
 };
 
-extern char othm_symbol_symbol_type[];
-extern char othm_symbol_keyword_type[];
+extern char othm_symbol_symbol_key_type[];
+extern char othm_symbol_keyword_key_type[];
 
 extern struct othm_hashmap *othm_global_symbol_map;
 
