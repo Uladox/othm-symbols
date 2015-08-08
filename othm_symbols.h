@@ -1,4 +1,19 @@
-#ifndef OTHM_SYMBOLS_H
+/*    This file is part of Othm_symbols.
+ *
+ *    Othm_symbols is free software: you can redistribute it and/or modify
+ *    it under the terms of the Lesser GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    Othm_symbols is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    Lesser GNU General Public License for more details.
+ *
+ *    You should have received a copy of the Lesser GNU General Public License
+ *    along with Ruspma.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ #ifndef OTHM_SYMBOLS_H
 #define OTHM_SYMBOLS_H
 
 #include <othm_hashmap.h>
