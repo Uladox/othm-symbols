@@ -19,6 +19,8 @@
 
 char othm_symbol_symbol_key_type[] = "symbol";
 char othm_symbol_keyword_key_type[] = "keyword";
+char othm_symbol_funct_key_type[] = "function";
+
 
 struct othm_hashmap *othm_global_symbol_map;
 

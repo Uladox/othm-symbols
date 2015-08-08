@@ -13,9 +13,14 @@ OTHM_SYMBOL_INIT(hi);
 OTHM_KEYWORD_INIT(bye);
 #endif
 
+OTHM_PRIM_FUNCT_INIT(equal, equal, void);
+
 int main(void)
 {
 	equal(OTHM_SYMBOL(cat));
+	OTHM_APPLY_PRIM_FUNCT
+		(equal, void (*) (struct othm_symbol_struct *),
+		 (OTHM_SYMBOL(cat)));
 	othm_symbols_init_runtime();
 	OTHM_SYMBOL_ALLOW_AT_RUNTIME(hi);
 	OTHM_KEYWORD_ALLOW_AT_RUNTIME(bye);
