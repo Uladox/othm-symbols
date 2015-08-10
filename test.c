@@ -17,7 +17,8 @@ OTHM_PRIM_FUNCT_INIT(equal, equal, void);
 
 int main(void)
 {
-	equal(OTHM_SYMBOL(cat));
+	/* equal(OTHM_SYMBOL(cat)); */
+	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_NAME(equal));
 	OTHM_APPLY_PRIM_FUNCT
 		(equal, void (*) (struct othm_symbol_struct *),
 		 (OTHM_SYMBOL(cat)));
