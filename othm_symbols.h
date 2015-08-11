@@ -21,7 +21,6 @@
 #define OTHMSYMBOLSTRUCT(SYMBOL) ((struct othm_symbol_struct *) (SYMBOL))
 #define OTHM_SYMBOL_INIT(SYMBOL)					\
 	struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = {	\
-		.intention = "'" #SYMBOL,					\
 		.request.data = #SYMBOL,					\
 		.request.data_size = sizeof(#SYMBOL),			\
 		.request.key_type = othm_symbol_symbol_key_type,	\
@@ -30,7 +29,6 @@
 
 #define OTHM_KEYWORD_INIT(KEYWORD)					\
 	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD = {	\
-		.intention = ":" #KEYWORD,					\
 		.request.data = #KEYWORD,				\
 		.request.data_size = sizeof(#KEYWORD),			\
 		.request.key_type = othm_symbol_keyword_key_type,	\
@@ -41,11 +39,11 @@
 #define OTHM_PRIM_FUNCT_INIT(PRIM_FUNCT, NAME, RETURN_TYPE)		\
 	RETURN_TYPE PRIM_FUNCT ();					\
 	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## PRIM_FUNCT = {	\
-		.function = (void (*) (void)) PRIM_FUNCT		\
+		.function = (void (*) (void)) PRIM_FUNCT,		\
+		.name = #NAME						\
         };								\
 	struct othm_symbol_struct OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT = { \
-		.intention = &OTHM_SYMBOL_PRIM_OTHM_FUNCT ## PRIM_FUNCT, \
-		.request.data = #NAME,					\
+		.request.data = &OTHM_SYMBOL_PRIM_OTHM_FUNCT ## PRIM_FUNCT, \
 		.request.data_size = sizeof(struct othm_funct),		\
 		.request.key_type = othm_symbol_funct_key_type,		\
 		.request.check_key = othm_symbol_pointer_compare	\
@@ -65,8 +63,10 @@
 	((char *)(OTHM_SYMBOL(SYMBOL))->request.data)
 #define OTHM_KEYWORD_NAME(KEYWORD)			\
 	((char *)(OTHM_KEYWORD(KEYWORD))->request.data)
-#define OTHM_PRIM_FUNCT_NAME(PRIM_FUNCT)			\
-	((char *)(OTHM_PRIM_FUNCT(PRIM_FUNCT))->request.data)
+#define OTHM_PRIM_FUNCT_NAME(PRIM_FUNCT)				\
+	((char *)							\
+	 ((struct othm_funct *) (OTHM_PRIM_FUNCT(PRIM_FUNCT))->request.data) \
+	 ->name)
 
 #define OTHM_SYMBOL_ALLOW_AT_RUNTIME(SYMBOL)			\
 	othm_symbol_allow_at_runtime(OTHM_SYMBOL(SYMBOL))
@@ -90,12 +90,11 @@
 #define OTHM_APPLY_PRIM_FUNCT(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
 	((FUNCTION_TYPE_CAST)						\
 	 (((struct othm_funct *)					\
-	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.intention)		\
+	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.request.data)		\
 	  ->function))PARAMS
 
 struct othm_symbol_struct {
 	struct othm_request request;
-	void *intention;
 };
 
 extern char othm_symbol_symbol_key_type[];

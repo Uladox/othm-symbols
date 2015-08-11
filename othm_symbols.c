@@ -68,13 +68,15 @@ struct othm_symbol_struct *othm_keyword_get_from_string(char *name)
 
 void othm_symbol_print(struct othm_symbol_struct *symbol)
 {
-	char key_type_char;
+	char *key_type_str;
 	if (symbol->request.key_type == othm_symbol_symbol_key_type) {
-		key_type_char = '\'';
+		key_type_str = "'";
 	} else if (symbol->request.key_type == othm_symbol_keyword_key_type) {
-		key_type_char = ':';
+		key_type_str = ":";
+	} else if (symbol->request.key_type == othm_symbol_funct_key_type) {
+		key_type_str = "#'";
 	} else {
-		key_type_char = '?';
+		key_type_str = "?";
 	}
-	printf("%c%s", key_type_char, (char *) symbol->request.data);
+	printf("%s%s", key_type_str, (char *) symbol->request.data);
 }

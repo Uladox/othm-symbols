@@ -3,7 +3,7 @@ all: libothm_symbols.so
 libothm_symbols.so: othm_symbols.o
 	gcc -shared -o libothm_symbols.so othm_symbols.o
 
-othm_symbols.o:
+othm_symbols.o: othm_symbols.c othm_symbols.h
 	gcc -c -Wall -Werror -fPIC othm_symbols.c -o othm_symbols.o
 
 .PHONY : clean test install uninstall
