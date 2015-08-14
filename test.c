@@ -19,7 +19,7 @@ int main(void)
 {
 	/* equal(OTHM_SYMBOL(cat)); */
 	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_NAME(equal));
-	OTHM_APPLY_PRIM_FUNCT
+	OTHM_PRIM_FUNCT_APPLY
 		(equal, void (*) (struct othm_symbol_struct *),
 		 (OTHM_SYMBOL(cat)));
 	othm_symbols_init_runtime();

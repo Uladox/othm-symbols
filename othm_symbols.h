@@ -87,11 +87,14 @@
    figure out, but I dout many C programmers understand the preprocessor
    as well as they should. Seriously, learn the preprocessor!
 */
-#define OTHM_APPLY_PRIM_FUNCT(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
+#define OTHM_PRIM_FUNCT_APPLY(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
 	((FUNCTION_TYPE_CAST)						\
 	 (((struct othm_funct *)					\
 	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.request.data)		\
 	  ->function))PARAMS
+
+#define OTHM_PRIM_FUNCT_GET(PRIM_FUNCT, FUNCTION_TYPE_CAST)	\
+	((FUNCTION_TYPE_CAST)((struct othm_funct *)PRIM_FUNCT->request.data)->function)
 
 struct othm_symbol_struct {
 	struct othm_request request;
