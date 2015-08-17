@@ -93,8 +93,11 @@
 	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.request.data)		\
 	  ->function))PARAMS
 
-#define OTHM_PRIM_FUNCT_GET(PRIM_FUNCT, FUNCTION_TYPE_CAST)	\
-	((FUNCTION_TYPE_CAST)((struct othm_funct *)PRIM_FUNCT->request.data)->function)
+#define OTHM_PRIM_FUNCT_GET(PRIM_FUNCT, FUNCTION_TYPE_CAST)		\
+	((FUNCTION_TYPE_CAST)						\
+	 (((struct othm_funct *)					\
+	   PRIM_FUNCT->request.data)					\
+	  ->function))
 
 struct othm_symbol_struct {
 	struct othm_request request;
