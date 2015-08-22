@@ -59,13 +59,22 @@
 #define OTHM_KEYWORD(KEYWORD) (&OTHM_SYMBOL_KEYWORD ## KEYWORD)
 #define OTHM_PRIM_FUNCT(PRIM_FUNCT) (&OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT)
 
-#define OTHM_SYMBOL_NAME(SYMBOL)			\
+#define OTHM_SYMBOL_NAME_L(SYMBOL)			\
 	((char *)(OTHM_SYMBOL(SYMBOL))->request.data)
-#define OTHM_KEYWORD_NAME(KEYWORD)			\
+#define OTHM_KEYWORD_NAME_L(KEYWORD)			\
 	((char *)(OTHM_KEYWORD(KEYWORD))->request.data)
-#define OTHM_PRIM_FUNCT_NAME(PRIM_FUNCT)				\
+#define OTHM_PRIM_FUNCT_NAME_L(PRIM_FUNCT)				\
 	((char *)							\
 	 ((struct othm_funct *) (OTHM_PRIM_FUNCT(PRIM_FUNCT))->request.data) \
+	 ->name)
+
+#define OTHM_SYMBOL_NAME(SYMBOL)		\
+	((char *)(SYMBOL)->request.data)
+#define OTHM_KEYWORD_NAME(KEYWORD)		\
+	((char *)(KEYWORD)->request.data)
+#define OTHM_PRIM_FUNCT_NAME(PRIM_FUNCT)				\
+	((char *)							\
+	 ((struct othm_funct *) (PRIM_FUNCT)->request.data) \
 	 ->name)
 
 #define OTHM_SYMBOL_ALLOW_AT_RUNTIME(SYMBOL)			\
@@ -87,16 +96,22 @@
    figure out, but I dout many C programmers understand the preprocessor
    as well as they should. Seriously, learn the preprocessor!
 */
-#define OTHM_PRIM_FUNCT_APPLY(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
+#define OTHM_PRIM_FUNCT_APPLY_L(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
 	((FUNCTION_TYPE_CAST)						\
 	 (((struct othm_funct *)					\
 	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.request.data)		\
 	  ->function))PARAMS
 
+#define OTHM_PRIM_FUNCT_APPLY(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
+	((FUNCTION_TYPE_CAST)						\
+	 (((struct othm_funct *)					\
+	   (PRIM_FUNCT).request.data)					\
+	  ->function))PARAMS
+
 #define OTHM_PRIM_FUNCT_GET(PRIM_FUNCT, FUNCTION_TYPE_CAST)		\
 	((FUNCTION_TYPE_CAST)						\
 	 (((struct othm_funct *)					\
-	   PRIM_FUNCT->request.data)					\
+	   (PRIM_FUNCT)->request.data)					\
 	  ->function))
 
 struct othm_symbol_struct {

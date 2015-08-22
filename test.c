@@ -18,8 +18,8 @@ OTHM_PRIM_FUNCT_INIT(equal, equal, void);
 int main(void)
 {
 	/* equal(OTHM_SYMBOL(cat)); */
-	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_NAME(equal));
-	OTHM_PRIM_FUNCT_APPLY
+	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_NAME_L(equal));
+	OTHM_PRIM_FUNCT_APPLY_L
 		(equal, void (*) (struct othm_symbol_struct *),
 		 (OTHM_SYMBOL(cat)));
 	othm_symbols_init_runtime();
@@ -30,5 +30,5 @@ int main(void)
 	othm_symbol_print(othm_keyword_get_from_string("bye"));
 	printf("\n");
 	if(OTHM_SYMBOL(hi) == OTHM_SYMBOL(hi))
-		printf("%s\n", OTHM_KEYWORD_NAME(bye));
+		printf("%s\n", OTHM_KEYWORD_NAME_L(bye));
 }
