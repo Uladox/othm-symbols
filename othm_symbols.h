@@ -52,7 +52,7 @@
 	extern struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL
 #define OTHM_KEYWORD_EXPORT(KEYWORD)					\
 	extern struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD
-#define OTHM_PRINT_FUNCT_EXPORT(PRIM_FUNCT)				\
+#define OTHM_PRIM_FUNCT_EXPORT(PRIM_FUNCT)				\
 	extern struct othm_symbol_struct OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
 
 #define OTHM_SYMBOL(SYMBOL) (&OTHM_SYMBOL_SYMBOL ## SYMBOL)
