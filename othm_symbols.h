@@ -13,7 +13,7 @@
  *    You should have received a copy of the Lesser GNU General Public License
  *    along with Ruspma.  If not, see <http://www.gnu.org/licenses/>.
  */
- #ifndef OTHM_SYMBOLS_H
+#ifndef OTHM_SYMBOLS_H
 #define OTHM_SYMBOLS_H
 
 #include <othm_hashmap.h>
@@ -21,11 +21,42 @@
 #define OTHMSYMBOLSTRUCT(SYMBOL) ((struct othm_symbol_struct *) (SYMBOL))
 #define OTHM_SYMBOL_INIT(SYMBOL)					\
 	struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = {	\
-		.request.data = #SYMBOL,					\
+		.request.data = #SYMBOL,				\
 		.request.data_size = sizeof(#SYMBOL),			\
 		.request.key_type = othm_symbol_symbol_key_type,	\
 		.request.check_key = othm_symbol_pointer_compare	\
-	}
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL
+
+#define OTHM_SYMBOL_INIT_TAGGED_LEFT(LTAG_TYPE, SYMBOL)			\
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = { \
+			.request.data = #SYMBOL,			\
+			.request.data_size = sizeof(#SYMBOL),		\
+			.request.key_type = othm_symbol_symbol_key_type, \
+			.request.check_key = othm_symbol_pointer_compare \
+		};							\
+	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED;			\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED.
+
+#define OTHM_SYMBOL_INIT_TAGGED_LEFT(RTAG_TYPE, SYMBOL)			\
+	struct {							\
+		struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = { \
+			.request.data = #SYMBOL,			\
+			.request.data_size = sizeof(#SYMBOL),		\
+			.request.key_type = othm_symbol_symbol_key_type, \
+			.request.check_key = othm_symbol_pointer_compare \
+		};							\
+		RTAG_TYPE rtag;
+	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED;			\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED
 
 #define OTHM_KEYWORD_INIT(KEYWORD)					\
 	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD = {	\
@@ -33,7 +64,11 @@
 		.request.data_size = sizeof(#KEYWORD),			\
 		.request.key_type = othm_symbol_keyword_key_type,	\
 		.request.check_key = othm_symbol_pointer_compare	\
-	}
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF =				\
+		&OTHM_SYMBOL_KEYWORD ## KEYWORD
+
 /* NOTE, this uses function declarations that are not prototypes, it
    will work with any standard C compiler, but might return warnings! */
 #define OTHM_PRIM_FUNCT_INIT(PRIM_FUNCT, NAME, RETURN_TYPE)		\
@@ -47,17 +82,25 @@
 		.request.data_size = sizeof(struct othm_funct),		\
 		.request.key_type = othm_symbol_funct_key_type,		\
 		.request.check_key = othm_symbol_pointer_compare	\
-	}
-#define OTHM_SYMBOL_EXPORT(SYMBOL)					\
-	extern struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL
-#define OTHM_KEYWORD_EXPORT(KEYWORD)					\
-	extern struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD
-#define OTHM_PRIM_FUNCT_EXPORT(PRIM_FUNCT)				\
-	extern struct othm_symbol_struct OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT ## REF =			\
+		&OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
 
-#define OTHM_SYMBOL(SYMBOL) (&OTHM_SYMBOL_SYMBOL ## SYMBOL)
-#define OTHM_KEYWORD(KEYWORD) (&OTHM_SYMBOL_KEYWORD ## KEYWORD)
-#define OTHM_PRIM_FUNCT(PRIM_FUNCT) (&OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT)
+#define OTHM_SYMBOL_EXPORT(SYMBOL)					\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF
+#define OTHM_KEYWORD_EXPORT(KEYWORD)					\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF
+#define OTHM_PRIM_FUNCT_EXPORT(PRIM_FUNCT)				\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
+
+#define OTHM_SYMBOL(SYMBOL) (OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF)
+#define OTHM_KEYWORD(KEYWORD) (OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF)
+#define OTHM_PRIM_FUNCT(PRIM_FUNCT)			\
+	(OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT ## REF)
 
 #define OTHM_SYMBOL_NAME_L(SYMBOL)			\
 	((char *)(OTHM_SYMBOL(SYMBOL))->request.data)
