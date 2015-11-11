@@ -33,30 +33,45 @@
 #define OTHM_SYMBOL_INIT_TAGGED_LEFT(LTAG_TYPE, SYMBOL)			\
 	struct {							\
 		LTAG_TYPE ltag;						\
-		struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = { \
-			.request.data = #SYMBOL,			\
-			.request.data_size = sizeof(#SYMBOL),		\
-			.request.key_type = othm_symbol_symbol_key_type, \
-			.request.check_key = othm_symbol_pointer_compare \
-		};							\
-	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED;			\
+		struct othm_symbol_struct symbol;			\
+	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED = {			\
+		.symbol.request.data = #SYMBOL,				\
+		.symbol.request.data_size = sizeof(#SYMBOL),		\
+		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare	\
+	};								\
 	struct othm_symbol_struct *					\
 	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED.
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED.symbol
 
-#define OTHM_SYMBOL_INIT_TAGGED_LEFT(RTAG_TYPE, SYMBOL)			\
+#define OTHM_SYMBOL_INIT_TAGGED_RIGHT(RTAG_TYPE, SYMBOL)		\
 	struct {							\
-		struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = { \
-			.request.data = #SYMBOL,			\
-			.request.data_size = sizeof(#SYMBOL),		\
-			.request.key_type = othm_symbol_symbol_key_type, \
-			.request.check_key = othm_symbol_pointer_compare \
-		};							\
-		RTAG_TYPE rtag;
-	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED;			\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## RTAGGED = {			\
+		.symbol.request.data = #SYMBOL,				\
+		.symbol.request.data_size = sizeof(#SYMBOL),		\
+		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare	\
+	};								\
 	struct othm_symbol_struct *					\
 	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## RTAGGED.symbol
+
+#define OTHM_SYMBOL_INIT_TAGGED_BOTH(LTAG_TYPE, RTAG_TYPE, SYMBOL)	\
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## BTAGGED = {			\
+		.symbol.request.data = #SYMBOL,				\
+		.symbol.request.data_size = sizeof(#SYMBOL),		\
+		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare	\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## BTAGGED.symbol
 
 #define OTHM_KEYWORD_INIT(KEYWORD)					\
 	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD = {	\
