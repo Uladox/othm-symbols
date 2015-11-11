@@ -19,134 +19,251 @@
 #include <othm_hashmap.h>
 
 #define OTHMSYMBOLSTRUCT(SYMBOL) ((struct othm_symbol_struct *) (SYMBOL))
-#define OTHM_SYMBOL_INIT(SYMBOL)					\
-	struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## SYMBOL = {	\
-		.request.data = #SYMBOL,				\
-		.request.data_size = sizeof(#SYMBOL),			\
+
+#define OTHM_SYMBOL_INIT(NAME)						\
+	struct othm_symbol_struct OTHM_SYMBOL_SYMBOL ## NAME = {	\
+		.request.data = #NAME,					\
+		.request.data_size = sizeof(#NAME),			\
 		.request.key_type = othm_symbol_symbol_key_type,	\
 		.request.check_key = othm_symbol_pointer_compare	\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL
+	OTHM_SYMBOL_SYMBOL ## NAME ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## NAME
 
-#define OTHM_SYMBOL_INIT_TAGGED_LEFT(LTAG_TYPE, SYMBOL)			\
+#define OTHM_SYMBOL_INIT_TAGGED_LEFT(NAME, LTAG_TYPE, ...)		\
 	struct {							\
 		LTAG_TYPE ltag;						\
 		struct othm_symbol_struct symbol;			\
-	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED = {			\
-		.symbol.request.data = #SYMBOL,				\
-		.symbol.request.data_size = sizeof(#SYMBOL),		\
+	} OTHM_SYMBOL_SYMBOL ## NAME ## LTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
 		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
-		.symbol.request.check_key = othm_symbol_pointer_compare	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## LTAGGED.symbol
+	OTHM_SYMBOL_SYMBOL ## NAME ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## NAME ## LTAGGED.symbol
 
-#define OTHM_SYMBOL_INIT_TAGGED_RIGHT(RTAG_TYPE, SYMBOL)		\
+#define OTHM_SYMBOL_INIT_TAGGED_RIGHT(NAME, RTAG_TYPE, ...)		\
 	struct {							\
 		struct othm_symbol_struct symbol;			\
 		RTAG_TYPE rtag;						\
-	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## RTAGGED = {			\
-		.symbol.request.data = #SYMBOL,				\
-		.symbol.request.data_size = sizeof(#SYMBOL),		\
+	} OTHM_SYMBOL_SYMBOL ## NAME ## RTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
 		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
-		.symbol.request.check_key = othm_symbol_pointer_compare	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## RTAGGED.symbol
+	OTHM_SYMBOL_SYMBOL ## NAME ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## NAME ## RTAGGED.symbol
 
-#define OTHM_SYMBOL_INIT_TAGGED_BOTH(LTAG_TYPE, RTAG_TYPE, SYMBOL)	\
+#define OTHM_SYMBOL_INIT_TAGGED_BOTH(NAME, LTAG_TYPE, RTAG_TYPE, ...)	\
 	struct {							\
 		LTAG_TYPE ltag;						\
 		struct othm_symbol_struct symbol;			\
 		RTAG_TYPE rtag;						\
-	} OTHM_SYMBOL_SYMBOL ## SYMBOL ## BTAGGED = {			\
-		.symbol.request.data = #SYMBOL,				\
-		.symbol.request.data_size = sizeof(#SYMBOL),		\
+	} OTHM_SYMBOL_SYMBOL ## NAME ## BTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
 		.symbol.request.key_type = othm_symbol_symbol_key_type,	\
-		.symbol.request.check_key = othm_symbol_pointer_compare	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF =				\
-		&OTHM_SYMBOL_SYMBOL ## SYMBOL ## BTAGGED.symbol
+	OTHM_SYMBOL_SYMBOL ## NAME ## REF =				\
+		&OTHM_SYMBOL_SYMBOL ## NAME ## BTAGGED.symbol
 
-#define OTHM_KEYWORD_INIT(KEYWORD)					\
-	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## KEYWORD = {	\
-		.request.data = #KEYWORD,				\
-		.request.data_size = sizeof(#KEYWORD),			\
+#define OTHM_KEYWORD_INIT(NAME)						\
+	struct othm_symbol_struct OTHM_SYMBOL_KEYWORD ## NAME = {	\
+		.request.data = #NAME,					\
+		.request.data_size = sizeof(#NAME),			\
 		.request.key_type = othm_symbol_keyword_key_type,	\
 		.request.check_key = othm_symbol_pointer_compare	\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF =				\
-		&OTHM_SYMBOL_KEYWORD ## KEYWORD
+	OTHM_SYMBOL_KEYWORD ## NAME ## REF =				\
+		&OTHM_SYMBOL_KEYWORD ## NAME
+
+#define OTHM_KEYWORD_INIT_TAGGED_LEFT(NAME, LTAG_TYPE, ...)		\
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct symbol;			\
+	} OTHM_SYMBOL_KEYWORD ## NAME ## LTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
+		.symbol.request.key_type = othm_symbol_keyword_key_type, \
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_KEYWORD ## NAME ## REF =				\
+		&OTHM_SYMBOL_KEYWORD ## NAME ## LTAGGED.symbol
+
+#define OTHM_KEYWORD_INIT_TAGGED_RIGHT(NAME, RTAG_TYPE, ...)		\
+	struct {							\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_KEYWORD ## NAME ## RTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
+		.symbol.request.key_type = othm_symbol_keyword_key_type, \
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_KEYWORD ## NAME ## REF =				\
+		&OTHM_SYMBOL_KEYWORD ## NAME ## RTAGGED.symbol
+
+#define OTHM_KEYWORD_INIT_TAGGED_BOTH(NAME, LTAG_TYPE, RTAG_TYPE, ...) \
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_KEYWORD ## NAME ## BTAGGED = {			\
+		.symbol.request.data = #NAME,				\
+		.symbol.request.data_size = sizeof(#NAME),		\
+		.symbol.request.key_type = othm_symbol_keyword_key_type, \
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_KEYWORD ## NAME ## REF =				\
+		&OTHM_SYMBOL_KEYWORD ## NAME ## BTAGGED.symbol
 
 /* NOTE, this uses function declarations that are not prototypes, it
    will work with any standard C compiler, but might return warnings! */
-#define OTHM_PRIM_FUNCT_INIT(PRIM_FUNCT, NAME, RETURN_TYPE)		\
+#define OTHM_PRIM_FUNCT_INIT(NAME, PRIM_FUNCT, RETURN_TYPE)		\
 	RETURN_TYPE PRIM_FUNCT ();					\
-	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## PRIM_FUNCT = {	\
+	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME = {	\
 		.function = (void (*) (void)) PRIM_FUNCT,		\
 		.name = #NAME						\
         };								\
-	struct othm_symbol_struct OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT = { \
-		.request.data = &OTHM_SYMBOL_PRIM_OTHM_FUNCT ## PRIM_FUNCT, \
+	struct othm_symbol_struct OTHM_SYMBOL_PRIM_FUNCT ## NAME = {	\
+		.request.data = &OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME,	\
 		.request.data_size = sizeof(struct othm_funct),		\
 		.request.key_type = othm_symbol_funct_key_type,		\
 		.request.check_key = othm_symbol_pointer_compare	\
 	};								\
 	struct othm_symbol_struct *					\
-	OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT ## REF =			\
-		&OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
+	OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF =				\
+		&OTHM_SYMBOL_PRIM_FUNCT ## NAME
 
-#define OTHM_SYMBOL_EXPORT(SYMBOL)					\
-	extern struct othm_symbol_struct *				\
-	OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF
-#define OTHM_KEYWORD_EXPORT(KEYWORD)					\
-	extern struct othm_symbol_struct *				\
-	OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF
-#define OTHM_PRIM_FUNCT_EXPORT(PRIM_FUNCT)				\
-	extern struct othm_symbol_struct *				\
-	OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
+#define OTHM_PRIM_FUNCT_INIT_TAGGED_LEFT(NAME, PRIM_FUNCT, RETURN_TYPE,	\
+					 LTAG_TYPE, ...)		\
+	RETURN_TYPE PRIM_FUNCT ();					\
+	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME = {	\
+		.function = (void (*) (void)) PRIM_FUNCT,		\
+		.name = #NAME						\
+        };								\
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct symbol;			\
+	} OTHM_SYMBOL_PRIM_FUNCT ## NAME ## LTAGGED = {			\
+		.symbol.request.data =					\
+		&OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME,			\
+		.symbol.request.data_size = sizeof(struct othm_funct),	\
+		.symbol.request.key_type = othm_symbol_funct_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF =				\
+		&OTHM_SYMBOL_PRIM_FUNCT ## NAME ##LTAGGED.symbol
 
-#define OTHM_SYMBOL(SYMBOL) (OTHM_SYMBOL_SYMBOL ## SYMBOL ## REF)
-#define OTHM_KEYWORD(KEYWORD) (OTHM_SYMBOL_KEYWORD ## KEYWORD ## REF)
-#define OTHM_PRIM_FUNCT(PRIM_FUNCT)			\
-	(OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT ## REF)
+#define OTHM_PRIM_FUNCT_INIT_TAGGED_RIGHT(NAME, PRIM_FUNCT, RETURN_TYPE, \
+					  RTAG_TYPE, ...)		\
+	RETURN_TYPE PRIM_FUNCT ();					\
+	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME = {	\
+		.function = (void (*) (void)) PRIM_FUNCT,		\
+		.name = #NAME						\
+        };								\
+	struct {							\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_PRIM_FUNCT ## NAME ## RTAGGED = {			\
+		.symbol.request.data =					\
+		&OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME,			\
+		.symbol.request.data_size = sizeof(struct othm_funct),	\
+		.symbol.request.key_type = othm_symbol_funct_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF =				\
+		&OTHM_SYMBOL_PRIM_FUNCT ## NAME ##RTAGGED.symbol
 
-#define OTHM_SYMBOL_NAME_L(SYMBOL)			\
-	((char *)(OTHM_SYMBOL(SYMBOL))->request.data)
-#define OTHM_KEYWORD_NAME_L(KEYWORD)			\
-	((char *)(OTHM_KEYWORD(KEYWORD))->request.data)
-#define OTHM_PRIM_FUNCT_NAME_L(PRIM_FUNCT)				\
+#define OTHM_PRIM_FUNCT_INIT_TAGGED_BOTH(NAME, PRIM_FUNCT, RETURN_TYPE, \
+					 LTAG_TYPE, RTAG_TYPE, ...)	\
+	RETURN_TYPE PRIM_FUNCT ();					\
+	struct othm_funct OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME = {	\
+		.function = (void (*) (void)) PRIM_FUNCT,		\
+		.name = #NAME						\
+        };								\
+	struct {							\
+		LTAG_TYPE ltag;						\
+		struct othm_symbol_struct symbol;			\
+		RTAG_TYPE rtag;						\
+	} OTHM_SYMBOL_PRIM_FUNCT ## NAME ## BTAGGED = {			\
+		.symbol.request.data =					\
+		&OTHM_SYMBOL_PRIM_OTHM_FUNCT ## NAME,			\
+		.symbol.request.data_size = sizeof(struct othm_funct),	\
+		.symbol.request.key_type = othm_symbol_funct_key_type,	\
+		.symbol.request.check_key = othm_symbol_pointer_compare, \
+		__VA_ARGS__						\
+	};								\
+	struct othm_symbol_struct *					\
+	OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF =				\
+		&OTHM_SYMBOL_PRIM_FUNCT ## NAME ##BTAGGED.symbol
+
+#define OTHM_SYMBOL_EXPORT(NAME)					\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_SYMBOL ## NAME ## REF
+#define OTHM_KEYWORD_EXPORT(NAME)					\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_KEYWORD ## NAME ## REF
+#define OTHM_PRIM_FUNCT_EXPORT(NAME)					\
+	extern struct othm_symbol_struct *				\
+	OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF
+
+#define OTHM_SYMBOL(NAME) (OTHM_SYMBOL_SYMBOL ## NAME ## REF)
+#define OTHM_KEYWORD(NAME) (OTHM_SYMBOL_KEYWORD ## NAME ## REF)
+#define OTHM_PRIM_FUNCT(NAME)			\
+	(OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF)
+
+#define OTHM_SYMBOL_STR_NAME_L(NAME)			\
+	((char *)(OTHM_SYMBOL(NAME))->request.data)
+#define OTHM_KEYWORD_STR_NAME_L(NAME)			\
+	((char *)(OTHM_KEYWORD(NAME))->request.data)
+#define OTHM_PRIM_FUNCT_STR_NAME_L(NAME)				\
 	((char *)							\
-	 ((struct othm_funct *) (OTHM_PRIM_FUNCT(PRIM_FUNCT))->request.data) \
+	 ((struct othm_funct *) (OTHM_PRIM_FUNCT(NAME))->request.data)	\
 	 ->name)
 
-#define OTHM_SYMBOL_NAME(SYMBOL)		\
+#define OTHM_SYMBOL_STR_NAME(SYMBOL)		\
 	((char *)(SYMBOL)->request.data)
-#define OTHM_KEYWORD_NAME(KEYWORD)		\
+#define OTHM_KEYWORD_STR_NAME(KEYWORD)		\
 	((char *)(KEYWORD)->request.data)
-#define OTHM_PRIM_FUNCT_NAME(PRIM_FUNCT)				\
+#define OTHM_PRIM_FUNCT_STR_NAME(PRIM_FUNCT)				\
 	((char *)							\
 	 ((struct othm_funct *) (PRIM_FUNCT)->request.data) \
 	 ->name)
 
-#define OTHM_SYMBOL_ALLOW_AT_RUNTIME(SYMBOL)			\
-	othm_symbol_allow_at_runtime(OTHM_SYMBOL(SYMBOL))
+#define OTHM_SYMBOL_ALLOW_AT_RUNTIME(NAME)		\
+	othm_symbol_allow_at_runtime(OTHM_SYMBOL(NAME))
 
-#define OTHM_KEYWORD_ALLOW_AT_RUNTIME(KEYWORD)			\
-	othm_symbol_allow_at_runtime(OTHM_KEYWORD(KEYWORD))
+#define OTHM_KEYWORD_ALLOW_AT_RUNTIME(NAME)			\
+	othm_symbol_allow_at_runtime(OTHM_KEYWORD(NAME))
 
-#define OTHM_PRIM_FUNCT_ALLOW_AT_RUNTIME(PRIM_FUNCT)		\
-	othm_symbol_allow_at_runtime(OTHM_PRIM_FUNCT(PRIM_FUNCT))
+#define OTHM_PRIM_FUNCT_ALLOW_AT_RUNTIME(NAME)			\
+	othm_symbol_allow_at_runtime(OTHM_PRIM_FUNCT(NAME))
 
 /* This is a macro that takes a othm function symbol, a type for
    the symbol, and some values to apply the symbol on. It generates
-   the an identifier for the symbol OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT
+   the an identifier for the symbol OTHM_SYMBOL_PRIM_FUNCT ## NAME
    then it gets the data in the request (which is an othm_funct), this
    requires converting the .data from void* to struct othm_funct*
    next it casts the function in the stuct othm_funct* to the given
@@ -154,10 +271,10 @@
    figure out, but I dout many C programmers understand the preprocessor
    as well as they should. Seriously, learn the preprocessor!
 */
-#define OTHM_PRIM_FUNCT_APPLY_L(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\
+#define OTHM_PRIM_FUNCT_APPLY_L(NAME, FUNCTION_TYPE_CAST, PARAMS)	\
 	((FUNCTION_TYPE_CAST)						\
 	 (((struct othm_funct *)					\
-	   OTHM_SYMBOL_PRIM_FUNCT ## PRIM_FUNCT.request.data)		\
+	   OTHM_SYMBOL_PRIM_FUNCT ## NAME ## REF->request.data)			\
 	  ->function))PARAMS
 
 #define OTHM_PRIM_FUNCT_APPLY(PRIM_FUNCT, FUNCTION_TYPE_CAST, PARAMS)	\

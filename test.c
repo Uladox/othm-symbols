@@ -5,20 +5,21 @@
 
 #ifndef OTHM_SYMBOL_SYMBOL_HI
 #define OTHM_SYMBOL_SYMBOL_HI
-OTHM_SYMBOL_INIT_TAGGED_BOTH(char, int, hi);
+OTHM_SYMBOL_INIT_TAGGED_BOTH(hi, char, int);
 #endif
 
 #ifndef OTHM_SYMBOL_KEYWORD_BYE
 #define OTHM_SYMBOL_KEYWORD_BYE
-OTHM_KEYWORD_INIT(bye);
+OTHM_KEYWORD_INIT_TAGGED_RIGHT(bye, double);
 #endif
 
-OTHM_PRIM_FUNCT_INIT(equal, equal, void);
+OTHM_PRIM_FUNCT_INIT_TAGGED_BOTH(equal, equal, void,
+				 void *, long int);
 
 int main(void)
 {
 	/* equal(OTHM_SYMBOL(cat)); */
-	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_NAME_L(equal));
+	printf("calling %s results in:\n", OTHM_PRIM_FUNCT_STR_NAME_L(equal));
 	OTHM_PRIM_FUNCT_APPLY_L
 		(equal, void (*) (struct othm_symbol_struct *),
 		 (OTHM_SYMBOL(cat)));
@@ -30,5 +31,5 @@ int main(void)
 	othm_symbol_print(othm_keyword_get_from_string("bye"));
 	printf("\n");
 	if(OTHM_SYMBOL(hi) == OTHM_SYMBOL(hi))
-		printf("%s\n", OTHM_KEYWORD_NAME_L(bye));
+		printf("%s\n", OTHM_KEYWORD_STR_NAME_L(bye));
 }
