@@ -252,14 +252,14 @@
 	 ((struct othm_funct *) (PRIM_FUNCT)->request.data) \
 	 ->name)
 
-#define OTHM_SYMBOL_ALLOW_AT_RUNTIME(NAME)		\
-	othm_symbol_allow_at_runtime(OTHM_SYMBOL(NAME))
+#define OTHM_SYMBOL_ALLOW_AT_RUNTIME(HASHMAP, NAME)			\
+	othm_symbol_allow_at_runtime(HASHMAP, OTHM_SYMBOL(NAME))
 
-#define OTHM_KEYWORD_ALLOW_AT_RUNTIME(NAME)			\
-	othm_symbol_allow_at_runtime(OTHM_KEYWORD(NAME))
+#define OTHM_KEYWORD_ALLOW_AT_RUNTIME(HASHMAP, NAME)			\
+	othm_symbol_allow_at_runtime(HASHMAP, OTHM_KEYWORD(NAME))
 
-#define OTHM_PRIM_FUNCT_ALLOW_AT_RUNTIME(NAME)			\
-	othm_symbol_allow_at_runtime(OTHM_PRIM_FUNCT(NAME))
+#define OTHM_PRIM_FUNCT_ALLOW_AT_RUNTIME(HASHMAP, NAME)			\
+	othm_symbol_allow_at_runtime(HASHMAP, OTHM_PRIM_FUNCT(NAME))
 
 /* This is a macro that takes a othm function symbol, a type for
    the symbol, and some values to apply the symbol on. It generates
@@ -297,19 +297,20 @@ extern char othm_symbol_symbol_key_type[];
 extern char othm_symbol_keyword_key_type[];
 extern char othm_symbol_funct_key_type[];
 
-extern struct othm_hashmap *othm_global_symbol_map;
+/* extern struct othm_hashmap *othm_global_symbol_map; */
 
-void othm_symbols_init_runtime(void);
-
-void othm_symbol_allow_at_runtime(struct othm_symbol_struct *symbol);
+void othm_symbol_allow_at_runtime(struct othm_hashmap *hashmap,
+				  struct othm_symbol_struct *symbol);
 
 int othm_symbol_pointer_compare(void *storage, void *data);
 
 int othm_symbol_string_compare(void *storage, void *data);
 
-struct othm_symbol_struct *othm_symbol_get_from_string(char *name);
+struct othm_symbol_struct *othm_symbol_get_from_string(struct othm_hashmap *hashmap,
+						       char *name);
 
-struct othm_symbol_struct *othm_keyword_get_from_string(char *name);
+struct othm_symbol_struct *othm_keyword_get_from_string(struct othm_hashmap *hashmap,
+							char *name);
 
 void othm_symbol_print(struct othm_symbol_struct *symbol);
 

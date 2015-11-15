@@ -22,16 +22,17 @@ char othm_symbol_keyword_key_type[] = "keyword";
 char othm_symbol_funct_key_type[] = "function";
 
 
-struct othm_hashmap *othm_global_symbol_map;
+/* struct othm_hashmap *othm_global_symbol_map; */
 
-void othm_symbols_init_runtime(void)
-{
-	othm_global_symbol_map = othm_hashmap_new_seq(4);
-}
+/* void othm_symbols_init_runtime(void) */
+/* { */
+/* 	othm_global_symbol_map = othm_hashmap_new_seq(4); */
+/* } */
 
-void othm_symbol_allow_at_runtime(struct othm_symbol_struct *symbol)
+void othm_symbol_allow_at_runtime(struct othm_hashmap *hashmap,
+				  struct othm_symbol_struct *symbol)
 {
-	othm_hashmap_add(othm_global_symbol_map,
+	othm_hashmap_add(hashmap,
 			 OTHMREQUEST(symbol),
 			 symbol);
 }
@@ -46,24 +47,26 @@ int othm_symbol_string_compare(void *storage, void *data)
 	return !(strcmp((char *)storage, (char *)data));
 }
 
-struct othm_symbol_struct *othm_symbol_get_from_string(char *name)
+struct othm_symbol_struct *othm_symbol_get_from_string(struct othm_hashmap *hashmap,
+						       char *name)
 {
 	struct othm_request request;
 	request.data = name;
 	request.data_size = strlen(name) + 1;
 	request.key_type = othm_symbol_symbol_key_type;
 	request.check_key = othm_symbol_string_compare;
-	return othm_hashmap_get(othm_global_symbol_map, &request);
+	return othm_hashmap_get(hashmap, &request);
 }
 
-struct othm_symbol_struct *othm_keyword_get_from_string(char *name)
+struct othm_symbol_struct *othm_keyword_get_from_string(struct othm_hashmap *hashmap,
+							char *name)
 {
 	struct othm_request request;
 	request.data = name;
 	request.data_size = strlen(name) + 1;
 	request.key_type = othm_symbol_keyword_key_type;
 	request.check_key = othm_symbol_string_compare;
-	return othm_hashmap_get(othm_global_symbol_map, &request);
+	return othm_hashmap_get(hashmap, &request);
 }
 
 void othm_symbol_print(struct othm_symbol_struct *symbol)
